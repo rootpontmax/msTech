@@ -24,6 +24,11 @@ namespace msTech.Editor
                     string path = EditorUtility.OpenFolderPanel("Choose folder to export project data", "", "");
                     if( !string.IsNullOrEmpty(path) )
                         _projectData.Export(path);
+
+
+                    if( EditorUtility.DisplayDialog("Export", "Export is finished", "OK") )
+                    {
+                    }
                 }
             }
         }

@@ -1,0 +1,31 @@
+OSX:
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -m -f BC3
+
+iOS:
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -f PVRTCI_4BPP_RGBA
+
+
+
+
+
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -m -f PVRTC1_2,UBN,lRGB
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -m -f PVRTC1_4,UBN,lRGB
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -m -f PVRTC1_2_RGB,UBN,lRGB
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -m -f PVRTC1_4_RGB,UBN,lRGB
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -m -f PVRTC2_2,UBN,lRGB
+./Users/Scrooge/Code/GitHub/msTech/Tools/PVRTexToolCLI -i /Users/Scrooge/Code/GitHub/msTech/Tools/ChaseUI.png -o /Users/Scrooge/Code/msTech_2_0/Bin/Data/Textures/Test.pvr -m -f PVRTC2_4,UBN,lRGB
+
+
+PVRTCII_4BPP
+PVRTCI_4BPP_RGB
+PVRTCI_4BPP_RGBA
+
+
+PVRTCII_2BPP
+
+PVRTCII_HDR_6BPP
+PVRTCII_HDR_8BPP
+PVRTCI_2BPP_RGB
+PVRTCI_2BPP_RGBA
+PVRTCI_HDR_6BPP
+PVRTCI_HDR_8BPP
