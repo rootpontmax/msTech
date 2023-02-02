@@ -18,8 +18,13 @@ namespace msTech.Editor
             SerializedProperty propAnchorH = prop.FindPropertyRelative("anchorH");
             SerializedProperty propOffsetX = prop.FindPropertyRelative("offsetX");
             SerializedProperty propOffsetY = prop.FindPropertyRelative("offsetY");
+            SerializedProperty propSizeX = prop.FindPropertyRelative("sizeX");
+            SerializedProperty propSizeY = prop.FindPropertyRelative("sizeY");
+            SerializedProperty propNormalSprite = prop.FindPropertyRelative("normalSprite");
+            SerializedProperty propPressedSprite = prop.FindPropertyRelative("pressedSprite");
             SerializedProperty propIsVisibile = prop.FindPropertyRelative("isVisible");
             SerializedProperty propIsTouchable = prop.FindPropertyRelative("isTouchable");
+            
 
 
 
@@ -32,6 +37,7 @@ namespace msTech.Editor
             propIsFold.boolValue = EditorGUI.Foldout(drawRect, propIsFold.boolValue, propName.stringValue);
             if ( propIsFold.boolValue )
             {
+                // Common section
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 DrawPropertyWithOffset(ref drawRect, propName, "Name");
@@ -41,9 +47,22 @@ namespace msTech.Editor
                 DrawPropertyWithOffset(ref drawRect, propAnchorH, "Anchor H");
                 DrawPropertyWithOffset(ref drawRect, propOffsetX, "Offset X");
                 DrawPropertyWithOffset(ref drawRect, propOffsetY, "Offset Y");
+                DrawPropertyWithOffset(ref drawRect, propSizeX, "Size X");
+                DrawPropertyWithOffset(ref drawRect, propSizeY, "Size Y");
                 DrawPropertyWithOffset(ref drawRect, propIsVisibile, "Visible");
                 DrawPropertyWithOffset(ref drawRect, propIsTouchable, "Touchable");
-                
+
+                // Alternative section
+                UIElementType type = (UIElementType)propType.intValue;
+                if ( UIElementType.Image == type )
+                {
+                    DrawPropertyWithOffset(ref drawRect, propNormalSprite, "Sprite");
+                }
+                else if ( UIElementType.Button == type )
+                {
+                    DrawPropertyWithOffset(ref drawRect, propNormalSprite, "Normal Sprite");
+                    DrawPropertyWithOffset(ref drawRect, propPressedSprite, "Pressed Sprite");
+                }
             }
             /*/
 
@@ -66,9 +85,19 @@ namespace msTech.Editor
         
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
+            SerializedProperty propType = prop.FindPropertyRelative("type");
             SerializedProperty propIsFold = prop.FindPropertyRelative("_editorIsFold");
             float oneHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            return propIsFold.boolValue ? oneHeight * 9 : oneHeight;
+
+            int linesCount = 11;
+            UIElementType type = (UIElementType)propType.intValue;
+
+            if ( UIElementType.Image == type )
+                linesCount += 1;
+            else if( UIElementType.Button == type )
+                linesCount += 2;
+
+            return propIsFold.boolValue ? oneHeight * linesCount : oneHeight;
         }
 
         private void DrawPropertyWithOffset(ref Rect rect, SerializedProperty prop, string name)

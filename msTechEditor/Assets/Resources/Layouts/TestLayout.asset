@@ -17,26 +17,40 @@ MonoBehaviour:
     type: 1
     anchorV: 0
     anchorH: 0
+    normalSprite: {fileID: 2800000, guid: 643a172ed60e84bed89058acda2139f0, type: 3}
+    pressedSprite: {fileID: 0}
     offsetX: 0
     offsetY: 0
+    sizeX: 5
+    sizeY: 2
     isVisible: 0
     isTouchable: 0
     _editorIsFold: 1
-  - name: secUI
-    type: 0
-    anchorV: 0
-    anchorH: 0
-    offsetX: 0
-    offsetY: 0
-    isVisible: 0
-    isTouchable: 0
-    _editorIsFold: 0
   - name: first
     type: 0
     anchorV: 0
     anchorH: 0
+    normalSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
     offsetX: 0
     offsetY: 0
+    sizeX: 0.1
+    sizeY: 0.1
     isVisible: 0
     isTouchable: 0
     _editorIsFold: 0
+  - name: secUI
+    type: 0
+    anchorV: 0
+    anchorH: 0
+    normalSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    offsetX: 0
+    offsetY: 0
+    sizeX: 0.1
+    sizeY: 0.1
+    isVisible: 0
+    isTouchable: 0
+    _editorIsFold: 0
+  orientation: 1
+  aspect: 2
