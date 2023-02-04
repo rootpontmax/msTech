@@ -31,8 +31,11 @@ namespace msTech.Editor
                 return;
             }
 
-            
+
+            EditorGUI.BeginChangeCheck();
             DrawData();
+            if ( EditorGUI.EndChangeCheck() && null != _view )
+                _view.Refresh(_data);
             EditorGUILayout.EndScrollView();
         }
 
@@ -62,7 +65,7 @@ namespace msTech.Editor
             DrawDialogsAux();
             */
 
-            DrawGrid();
+            DrawFrameAndGrid();
             
 
             // Left click
@@ -99,8 +102,9 @@ namespace msTech.Editor
             sceneView.Repaint();
         }
 
-        private void DrawGrid()
+        private void DrawFrameAndGrid()
         {
+            // Draw frame always
             float sizeX = 1.0f;
             float sizeY = 1.0f;
             Handles.color = Color.cyan;
@@ -127,6 +131,30 @@ namespace msTech.Editor
             Handles.DrawLine(posB, posC);
             Handles.DrawLine(posC, posD);
             Handles.DrawLine(posD, posA);
+
+            // Draw Grid if necessary
+            Handles.color = Color.gray;
+            if ( _data.showGrid )
+            {
+                float stepX = sizeX / _data.gridsizeX * 2.0f;
+                float stepY = sizeY / _data.gridsizeY * 2.0f;
+
+                for ( int i = 1; i < _data.gridsizeX; ++i )
+                {
+                    float x = -sizeX + stepX * i;
+                    Vector3 pos0 = new Vector3(x,  sizeY, 0.0f);
+                    Vector3 pos1 = new Vector3(x, -sizeY, 0.0f);
+                    Handles.DrawLine(pos0, pos1);
+                }
+
+                for ( int i = 1; i < _data.gridsizeY; ++i )
+                {
+                    float y = -sizeY + stepY * i;
+                    Vector3 pos0 = new Vector3(-sizeX, y, 0.0f);
+                    Vector3 pos1 = new Vector3( sizeX, y, 0.0f);
+                    Handles.DrawLine(pos0, pos1);
+                }
+            }
         }
 
         private void DrawRawData()
@@ -168,6 +196,12 @@ namespace msTech.Editor
             // Layout data
             _data.orientation = (LayoutOrientation)EditorGUILayout.EnumPopup("Layout Orientation", _data.orientation);
             _data.aspect = EditorGUILayout.FloatField("Aspect", _data.aspect);
+            _data.showGrid = EditorGUILayout.Toggle("Show Grid", _data.showGrid);
+            if ( _data.showGrid )
+            {
+                _data.gridsizeX = EditorGUILayout.IntField("Grid X", _data.gridsizeX);
+                _data.gridsizeY = EditorGUILayout.IntField("Grid Y", _data.gridsizeY);
+            }
             
 
             // Items data

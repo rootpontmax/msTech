@@ -1,5 +1,6 @@
 using System;
 using msTech.Data;
+using msTech.Render;
 using UnityEngine;
 
 namespace msTech.Editor
@@ -39,13 +40,15 @@ namespace msTech.Editor
             if ( null == layout || null == layout.elements || 0 == layout.elements.Length )
                 return;
 
+            DefineFrameSize(layout);
             for ( int i = 0; i < layout.elements.Length; ++i )
             {
                 UIElement item = layout.elements[i];
                 GameObject childGO = new GameObject(item.name);
                 childGO.transform.parent = _root.transform;
-                childGO.transform.position = new Vector3(item.offsetX, item.offsetY, 0.0f);
+                childGO.transform.position = GetAnchorPosition(item, i);//new Vector3(item.offsetX, item.offsetY, (float)i);
                 CreateMesh(childGO, item);
+                CreateAuxRect(childGO, item);
             }
         }
 
@@ -57,6 +60,45 @@ namespace msTech.Editor
                 GameObject.DestroyImmediate(go.transform.GetChild(0).gameObject);
                 childCount = go.transform.childCount;
             }
+        }
+
+        private void DefineFrameSize(Layout layout)
+        {
+            // Draw frame always
+            _sizeX = 1.0f;
+            _sizeY = 1.0f;
+            if ( LayoutOrientation.Portrait == layout.orientation )
+            {
+                _sizeX = 1.0f;
+                _sizeY = layout.aspect;
+            }
+            else if ( LayoutOrientation.Landscape == layout.orientation )
+            {
+                _sizeX = layout.aspect;
+                _sizeY = 1.0f;
+            }
+            else
+            {
+                Debug.LogError("Unknown type of Layout Orientation");
+            }
+        }
+
+        private Vector3 GetAnchorPosition(UIElement item, float zOffset)
+        {
+            float x = item.offsetX;
+            float y = item.offsetY;
+
+            if ( HorizontalAnchor.Left == item.anchorH )
+                x = -_sizeX + item.offsetX;
+            else if( HorizontalAnchor.Right == item.anchorH )
+                x = _sizeX - item.offsetX;
+
+            if ( VerticalAnchor.Top == item.anchorV )
+                y = _sizeY - item.offsetY;
+            else if( VerticalAnchor.Bottom == item.anchorV )
+                y = -_sizeY + item.offsetY;
+
+            return new Vector3(x, y, zOffset);
         }
 
         private void CreateMesh(GameObject go, UIElement item)
@@ -137,8 +179,14 @@ namespace msTech.Editor
             filter.mesh = mesh;
         }
 
-        
+        private void CreateAuxRect(GameObject go, UIElement item)
+        {
+            LayoutItemRect rect = go.AddComponent<LayoutItemRect>();
+            rect.Init(item.sizeX, item.sizeY);
+        }
 
         private readonly GameObject _root;
+        private float _sizeX;
+        private float _sizeY;
     }
 }

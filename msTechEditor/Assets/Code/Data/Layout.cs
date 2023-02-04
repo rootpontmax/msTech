@@ -15,12 +15,6 @@ namespace msTech.Data
         Image,
         Button
     }
-    public enum VerticalAnchor
-    {
-        Top,
-        Center,
-        Bottom
-    }
 
     public enum HorizontalAnchor
     {
@@ -29,13 +23,20 @@ namespace msTech.Data
         Right
     }
 
+    public enum VerticalAnchor
+    {
+        Top,
+        Center,
+        Bottom
+    }
+
     [Serializable]
     public class UIElement
     {
         public string name;
         public UIElementType type;
-        public VerticalAnchor anchorV = VerticalAnchor.Center;
         public HorizontalAnchor anchorH = HorizontalAnchor.Center;
+        public VerticalAnchor anchorV = VerticalAnchor.Center;        
         public Texture2D normalSprite;
         public Texture2D pressedSprite;
         public float offsetX = 0.0f;
@@ -53,5 +54,9 @@ namespace msTech.Data
         public UIElement[] elements;
         public LayoutOrientation orientation;
         public float aspect = 1.6f;
+        public int gridsizeX;
+        public int gridsizeY;
+        public bool showGrid;
+
     }
 }

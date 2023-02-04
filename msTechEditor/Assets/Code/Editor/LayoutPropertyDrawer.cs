@@ -43,8 +43,8 @@ namespace msTech.Editor
                 DrawPropertyWithOffset(ref drawRect, propName, "Name");
                 DrawPropertyWithOffset(ref drawRect, propType, "Type");
 
-                DrawPropertyWithOffset(ref drawRect, propAnchorV, "Anchor V");
                 DrawPropertyWithOffset(ref drawRect, propAnchorH, "Anchor H");
+                DrawPropertyWithOffset(ref drawRect, propAnchorV, "Anchor V");                
                 DrawPropertyWithOffset(ref drawRect, propOffsetX, "Offset X");
                 DrawPropertyWithOffset(ref drawRect, propOffsetY, "Offset Y");
                 DrawPropertyWithOffset(ref drawRect, propSizeX, "Size X");
