@@ -23,7 +23,33 @@ MonoBehaviour:
     offsetY: 0.2
     sizeX: 0.4
     sizeY: 0.4
-    isVisible: 0
+    isVisible: 1
+    isTouchable: 0
+    _editorIsFold: 0
+  - name: ButtonSettings
+    type: 2
+    anchorH: 1
+    anchorV: 0
+    normalSprite: {fileID: 2800000, guid: 0c3a0df8980e1408bb99ace29afa8a9a, type: 3}
+    pressedSprite: {fileID: 2800000, guid: c95bf1a5d620a458a924aacc403512a3, type: 3}
+    offsetX: 0
+    offsetY: 0.2
+    sizeX: 0.4
+    sizeY: 0.4
+    isVisible: 1
+    isTouchable: 0
+    _editorIsFold: 0
+  - name: ButtonInfo
+    type: 2
+    anchorH: 2
+    anchorV: 0
+    normalSprite: {fileID: 2800000, guid: c7db54e7b1f93418f816a114b1d111de, type: 3}
+    pressedSprite: {fileID: 2800000, guid: df828af557fdb48908d3f99230f2c7f3, type: 3}
+    offsetX: 0.2
+    offsetY: 0.2
+    sizeX: 0.4
+    sizeY: 0.4
+    isVisible: 1
     isTouchable: 0
     _editorIsFold: 1
   orientation: 0

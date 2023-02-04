@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: ProjectData
   m_EditorClassIdentifier: 
   resources:
+  - {fileID: 11400000, guid: 07408a1dae861422399fe34de949ea7b, type: 2}
   - {fileID: 11400000, guid: 20068b39652c143b19c30c230eccff02, type: 2}

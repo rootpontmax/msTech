@@ -43,8 +43,8 @@ namespace msTech.Data
         public float offsetY = 0.0f;
         public float sizeX = 0.1f;
         public float sizeY = 0.1f;
-        public bool isVisible;
-        public bool isTouchable;
+        public bool isVisible = true;
+        public bool isTouchable = true;
         [HideInInspector] public bool _editorIsFold;
     }
 

@@ -106,6 +106,9 @@ namespace msTech.Editor
             if ( null == item.normalSprite )
                 return;
 
+            if ( !item.isVisible )
+                return;
+
             Shader shader = Shader.Find("UI/Default");
             Material material = new Material(shader);
             material.mainTexture = item.normalSprite;
@@ -120,10 +123,10 @@ namespace msTech.Editor
             float halfSizeY = item.sizeY * 0.5f;
 
             // Position
-            pos[0] = new Vector3( halfSizeX,  halfSizeY, 0.0f);
-            pos[1] = new Vector3( halfSizeX, -halfSizeY, 0.0f);
-            pos[2] = new Vector3(-halfSizeX, -halfSizeY, 0.0f);
-            pos[3] = new Vector3(-halfSizeX,  halfSizeY, 0.0f);
+            pos[0] = new Vector3(-halfSizeX, -halfSizeY, 0.0f);
+            pos[1] = new Vector3(-halfSizeX,  halfSizeY, 0.0f);
+            pos[2] = new Vector3( halfSizeX,  halfSizeY, 0.0f);
+            pos[3] = new Vector3( halfSizeX, -halfSizeY, 0.0f);
 
             // Resolve mirror
             /*
