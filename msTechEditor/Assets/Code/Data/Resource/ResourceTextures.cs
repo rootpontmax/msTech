@@ -10,6 +10,8 @@ namespace msTech.Data
     {
         public Texture2D[] textures;
 
+        public override string[] GetAllStrings() { return null; }
+
         public override void Export(string folder)
         {
             if ( null != textures )

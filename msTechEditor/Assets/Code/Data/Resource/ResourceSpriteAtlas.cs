@@ -19,6 +19,8 @@ namespace msTech.Data
         public Texture2D[] textures;
         [HideInInspector] public Sprite[] sprites;
 
+        public override string[] GetAllStrings() { return null; }
+
         public override void Export(string folder)
         {
         }

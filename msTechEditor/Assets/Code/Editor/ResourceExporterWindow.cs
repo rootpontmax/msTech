@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using msTech.Data;
+using msTech.Export;
 
 namespace msTech.Editor
 {
@@ -19,20 +20,21 @@ namespace msTech.Editor
 
             if ( null != _projectData )
             {
+                _platform = (Platform)EditorGUILayout.EnumPopup("Platform", _platform);
+
                 if( GUILayout.Button("Export") )
                 {
                     string path = EditorUtility.OpenFolderPanel("Choose folder to export project data", "", "");
-                    if( !string.IsNullOrEmpty(path) )
-                        _projectData.Export(path);
 
+                    IResourceExporter resourceExporter = new ResourceExporter(_projectData, _platform, path);
+                    bool res = resourceExporter.Export();
 
-                    if( EditorUtility.DisplayDialog("Export", "Export is finished", "OK") )
-                    {
-                    }
+                    if( EditorUtility.DisplayDialog("Export", res ? "Export finished" : "Export failed", "OK") ) {}
                 }
             }
         }
 
         private ProjectData _projectData;
+        private Platform _platform = Platform.iOS;
     }
 }
