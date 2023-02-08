@@ -55,11 +55,7 @@ namespace msTech.Export
             bw.Write(_stringList.Count);
             for ( int i = 0; i < _stringList.Count; ++i )
             {
-                char[] stringDataChars = _stringList[i].ToCharArray();
                 byte[] stringDataBytes = System.Text.Encoding.UTF8.GetBytes(_stringList[i]);
-                //bw.Write(stringData.Length);
-                //bw.Write(stringData);
-
                 bw.Write(stringDataBytes.Length);
                 bw.Write(stringDataBytes);
             }
@@ -67,25 +63,6 @@ namespace msTech.Export
             bw.Flush();
             string filename = binFolderPath + "/uniqueStrings.bin";
             File.WriteAllBytes(filename, ms.ToArray() );
-
-            
-            
-
-            /*
-            string[] folders = directory.Split("/");
-            string parentFolder = folder;
-            if ( null != folders )
-                for ( int j = 0; j < folders.Length; ++j )
-                    if ( !string.IsNullOrEmpty(folders[i]) )
-                    {
-                        string fillFolderPath = parentFolder + "/" + folders[j];
-                        if ( !Directory.Exists(fillFolderPath) )
-                            Directory.CreateDirectory(fillFolderPath);
-
-                        string newFolderName = parentFolder + "/" + folders[j];
-                        parentFolder += "/" + folders[j];
-                    }
-            */
         }
 
 

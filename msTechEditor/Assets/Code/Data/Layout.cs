@@ -53,10 +53,10 @@ namespace msTech.Data
     {
         public UIElement[] elements;
         public LayoutOrientation orientation;
-        public float aspect = 1.6f;
-        public int gridsizeX;
-        public int gridsizeY;
-        public bool showGrid;
+        [HideInInspector] public float aspect = 1.6f;
+        [HideInInspector] public int gridsizeX;
+        [HideInInspector] public int gridsizeY;
+        [HideInInspector] public bool showGrid;
 
     }
 }
