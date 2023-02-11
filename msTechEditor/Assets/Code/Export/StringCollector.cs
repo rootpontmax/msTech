@@ -39,7 +39,6 @@ namespace msTech.Export
             // And make string-id dictionary
             for ( int i = 0; i < _stringList.Count; ++i )
                 _dictStrToId.Add(_stringList[i], i);
-
         }
 
         public void Export(string folder)

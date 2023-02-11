@@ -106,8 +106,7 @@ namespace msTech.Editor
 
             Texture2D assetTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             Debug.Assert(null != assetTexture, "Can't load texture as asset");
-            for ( int i = 0; i < sprites.Length; ++i )
-                sprites[i].atlasTexture = assetTexture;
+            _atlas.atlasTexture = assetTexture;
 
             return sprites;
         }

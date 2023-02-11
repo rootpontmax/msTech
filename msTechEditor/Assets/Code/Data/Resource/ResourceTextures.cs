@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using msTech.Export;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +11,23 @@ namespace msTech.Data
     {
         public Texture2D[] textures;
 
-        public override string[] GetAllStrings() { return null; }
+        public override string[] GetAllStrings()
+        {
+            if ( null == textures )
+                return null;
+
+            string[] textureNames = new string[textures.Length];
+            for ( int i = 0; i < textures.Length; ++i )
+                if ( null != textures[i] )
+                    textureNames[i] = ExportTools.GetTextureName(textures[i]);
+
+            return textureNames;
+        }
+
+        public override Texture[] GetAllTextures()
+        {
+            return textures;
+        }
 
         public override void Export(string folder)
         {

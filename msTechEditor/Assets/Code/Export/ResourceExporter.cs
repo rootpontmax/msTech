@@ -29,6 +29,7 @@ namespace msTech.Export
                 return false;
 
             IStringCollector stringCollector = CollectAndExportStrings();
+            ITextureCollector textureCollector = CollectAllExportTextures();
 
             //_data.Export(_folder);
                 
@@ -44,6 +45,16 @@ namespace msTech.Export
             stringCollector.CreateRegister();
             stringCollector.Export(_folder);
             return stringCollector;
+        }
+
+        private ITextureCollector CollectAllExportTextures()
+        {
+            ITextureCollector textureCollector = new TextureCollector();
+            for ( int i = 0; i < _data.resources.Length; ++i )
+                textureCollector.AddTextures(_data.resources[i].GetAllTextures());
+            textureCollector.CreateRegister();
+            textureCollector.Export(_folder, _platform);
+            return textureCollector;
         }
 
         private readonly ProjectData _data;

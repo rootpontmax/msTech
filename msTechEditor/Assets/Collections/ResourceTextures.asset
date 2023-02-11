@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ResourceTextures
   m_EditorClassIdentifier: 
   textures:
-  - {fileID: 2800000, guid: 643a172ed60e84bed89058acda2139f0, type: 3}
-  - {fileID: 2800000, guid: efcb4a5f278b94f089e1095685da3845, type: 3}
+  - {fileID: 2800000, guid: 3e4218832d00b455d824c1688c93d517, type: 3}
+  - {fileID: 2800000, guid: 1121e2e2d11374f61b18190d9927d6a4, type: 3}

@@ -34,6 +34,8 @@ namespace msTech.Data
             return allStrings;
         }
 
+        public override Texture[] GetAllTextures() { return null; }
+
         public override void Export(string folder)
         {
         }
