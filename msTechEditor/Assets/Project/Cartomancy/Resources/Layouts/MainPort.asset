@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba064502d6ac94369a5efcac6d272261, type: 3}
+  m_Name: MainPort
+  m_EditorClassIdentifier: 
+  elements:
+  - name: ButtonBack
+    type: 2
+    anchorH: 0
+    anchorV: 0
+    normalSprite: {fileID: 2800000, guid: f932ff8848e504211a3ec4fc1ab74974, type: 3}
+    pressedSprite: {fileID: 2800000, guid: 532ea2f55c68545acb5cf192ef3274bb, type: 3}
+    offsetX: 0.2
+    offsetY: 0.2
+    sizeX: 0.4
+    sizeY: 0.4
+    isVisible: 1
+    isTouchable: 0
+    _editorIsFold: 0
+  - name: ButtonSettings
+    type: 2
+    anchorH: 1
+    anchorV: 0
+    normalSprite: {fileID: 2800000, guid: 0c3a0df8980e1408bb99ace29afa8a9a, type: 3}
+    pressedSprite: {fileID: 2800000, guid: c95bf1a5d620a458a924aacc403512a3, type: 3}
+    offsetX: 0
+    offsetY: 0.2
+    sizeX: 0.4
+    sizeY: 0.4
+    isVisible: 1
+    isTouchable: 0
+    _editorIsFold: 0
+  - name: ButtonInfo
+    type: 2
+    anchorH: 2
+    anchorV: 0
+    normalSprite: {fileID: 2800000, guid: c7db54e7b1f93418f816a114b1d111de, type: 3}
+    pressedSprite: {fileID: 2800000, guid: df828af557fdb48908d3f99230f2c7f3, type: 3}
+    offsetX: 0.2
+    offsetY: 0.2
+    sizeX: 0.4
+    sizeY: 0.4
+    isVisible: 1
+    isTouchable: 0
+    _editorIsFold: 0
+  orientation: 0
+  aspect: 2
+  gridsizeX: 20
+  gridsizeY: 40
+  showGrid: 0

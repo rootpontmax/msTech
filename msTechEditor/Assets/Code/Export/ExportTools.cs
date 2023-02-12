@@ -9,8 +9,9 @@ namespace msTech.Export
         public static string GetTextureName(Texture texture)
         {
             string path = AssetDatabase.GetAssetPath(texture);
+            string shortPath = GetStringThatStartedWith(path, TEXTURE_PATH_CONTAINS);
             string extenstion = Path.GetExtension(path);
-            string shortName = path.Replace(RESOURCES_PATH, "").Replace(extenstion,"");
+            string shortName = shortPath.Replace(extenstion,"");
             return shortName;
         }
 
@@ -18,7 +19,7 @@ namespace msTech.Export
         {
             string path = AssetDatabase.GetAssetPath(texture);
             string directory = Path.GetDirectoryName(path);
-            string folder = directory.Replace(RESOURCES_PATH, "");
+            string folder = GetStringThatStartedWith(directory, TEXTURE_PATH_CONTAINS);
             return folder;
         }
 
@@ -38,7 +39,17 @@ namespace msTech.Export
                     }
         }
 
+        private static string GetStringThatStartedWith(string original, string start)
+        {
+            int id = original.IndexOf(start);
+            if ( -1 == id )
+            {
+                Debug.LogError("This string doesn't contain " + start);
+                return null;
+            }
+            return original.Substring(id);
+        }
 
-        private static readonly string RESOURCES_PATH = "Assets/Resources/";
+        private static readonly string TEXTURE_PATH_CONTAINS = "Textures";
     }
 }

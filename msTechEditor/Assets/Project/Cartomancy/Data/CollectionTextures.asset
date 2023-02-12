@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599d106c689df43cd8dece0bbc310ee2, type: 3}
+  m_Name: CollectionTextures
+  m_EditorClassIdentifier: 
+  resources:
+  - name: FontChase
+    texture: {fileID: 2800000, guid: 3e4218832d00b455d824c1688c93d517, type: 3}
+    filterMode: 1
+    generateMipMaps: 1
+  - name: FontComic
+    texture: {fileID: 2800000, guid: 1121e2e2d11374f61b18190d9927d6a4, type: 3}
+    filterMode: 1
+    generateMipMaps: 1
+  filename: textures
+  textures:
+  - name: FontChase
+    texture: {fileID: 2800000, guid: 3e4218832d00b455d824c1688c93d517, type: 3}
+    filterMode: 1
+    generateMipMaps: 1
+  - name: FontComic
+    texture: {fileID: 2800000, guid: 1121e2e2d11374f61b18190d9927d6a4, type: 3}
+    filterMode: 1
+    generateMipMaps: 1

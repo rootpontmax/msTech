@@ -3,10 +3,11 @@ using msTech.Export;
 
 namespace msTech.Data
 {
-    public interface ICollection
+    public interface IResource
     {
+        string GetName();
         string[] GetAllStrings();
         Texture[] GetAllTextures();
-        void Export(ExportContext context);
+        byte[] ExportToMemory(ExportContext exportContext);
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -10,6 +9,8 @@ namespace msTech.Export
         void AddStrings(string[] strings);
         void CreateRegister();
         void Export(string folder);
+
+        int GetStringId(string str);
     }
 
     public class StringCollector : IStringCollector
@@ -43,10 +44,15 @@ namespace msTech.Export
 
         public void Export(string folder)
         {
+            string binFolderPath = folder + "/Common";
+            ExportTools.CreateDirectoriesForPath(folder, "/Common");
+            
+            /*
             // Check exsistance of Bin folder
             string binFolderPath = folder + "/Common";
             if ( !Directory.Exists(binFolderPath) )
                 Directory.CreateDirectory(binFolderPath);
+            */
 
             // Save strings
             MemoryStream ms = new MemoryStream();
@@ -60,12 +66,18 @@ namespace msTech.Export
             }
 
             bw.Flush();
-            string filename = binFolderPath + "/uniqueStrings.bin";
+            string filename = binFolderPath + "/strings.msd";
             File.WriteAllBytes(filename, ms.ToArray() );
         }
 
+        public int GetStringId(string str)
+        {
+            if ( _dictStrToId.TryGetValue(str, out int id ) )
+                return id;
 
-
+            Debug.LogError("Can't find ID for string " + str);
+            return -1;
+        }
 
 
         private static readonly int CAPACITY = 10000;

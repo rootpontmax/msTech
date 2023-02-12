@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,8 +15,9 @@ namespace msTech.Export
 
     public class TextureCollector : ITextureCollector
     {
-        public TextureCollector()
+        public TextureCollector(IStringCollector stringCollector)
         {
+            _stringCollector = stringCollector;
             _textureSet = new HashSet<Texture>(CAPACITY);
             _textureList = new List<Texture>(CAPACITY);
             _dictTextureToId = new Dictionary<Texture, int>(CAPACITY);
@@ -42,6 +44,12 @@ namespace msTech.Export
         }
 
         public void Export(string folder, Platform platform)
+        {
+            ExportTextures(folder, platform);
+            ExportRegister(folder);
+        }
+
+        private void ExportTextures(string folder, Platform platform)
         {
             string projectFolder = Application.dataPath.Replace("Assets", "");
             string dataPath = Application.dataPath;
@@ -81,10 +89,34 @@ namespace msTech.Export
             }
         }
 
+        private void ExportRegister(string folder)
+        {
+            string binFolderPath = folder + "/Common";
+            ExportTools.CreateDirectoriesForPath(folder, "/Common");
+
+            // Save strings
+            MemoryStream ms = new MemoryStream();
+            BinaryWriter bw = new BinaryWriter(ms);
+            bw.Write(_textureList.Count);
+
+            // For every texture define its name, find nameID in string collector and save just id
+            for ( int i = 0; i < _textureList.Count; ++i )
+            {
+                string textureName = ExportTools.GetTextureName(_textureList[i]);
+                int id = _stringCollector.GetStringId(textureName);
+                bw.Write(id);
+            }
+
+            bw.Flush();
+            string filename = binFolderPath + "/textures.msd";
+            File.WriteAllBytes(filename, ms.ToArray() );
+        }
+
         
 
         private static readonly int CAPACITY = 100;
 
+        private readonly IStringCollector _stringCollector;
         private readonly HashSet<Texture> _textureSet;
         private readonly List<Texture> _textureList;
         private readonly Dictionary<Texture, int> _dictTextureToId;
