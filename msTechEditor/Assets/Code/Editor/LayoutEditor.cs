@@ -167,7 +167,7 @@ namespace msTech.Editor
                 EditorGUILayout.Space();
             }
 
-            _assignedData = EditorGUILayout.ObjectField("Layout", _assignedData, typeof(Layout), false) as Layout;
+            _assignedData = EditorGUILayout.ObjectField("Layout", _assignedData, typeof(ResourceLayout), false) as ResourceLayout;
 
             if( null != _assignedData && null == _data )
             {
@@ -212,7 +212,7 @@ namespace msTech.Editor
             }
         }
 
-        private void OpenLayout(Layout data)
+        private void OpenLayout(ResourceLayout data)
         {
             SetupSceneView();
 
@@ -305,8 +305,8 @@ namespace msTech.Editor
         }
 
         private ILayoutGO _view;
-        private Layout _data;
-        private Layout _assignedData;
+        private ResourceLayout _data;
+        private ResourceLayout _assignedData;
         private bool _hasAnyUnsavedData = false;
 
 

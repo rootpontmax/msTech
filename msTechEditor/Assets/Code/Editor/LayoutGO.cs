@@ -8,7 +8,7 @@ namespace msTech.Editor
     public interface ILayoutGO : IDisposable
     {
         void Tick();
-        void Refresh(Layout layout);
+        void Refresh(ResourceLayout layout);
     }
 
     public class LayoutGO : ILayoutGO
@@ -33,7 +33,7 @@ namespace msTech.Editor
             }
         }
 
-        public void Refresh(Layout layout)
+        public void Refresh(ResourceLayout layout)
         {
             ClearChildren(_root);
 
@@ -62,7 +62,7 @@ namespace msTech.Editor
             }
         }
 
-        private void DefineFrameSize(Layout layout)
+        private void DefineFrameSize(ResourceLayout layout)
         {
             // Draw frame always
             _sizeX = 1.0f;
