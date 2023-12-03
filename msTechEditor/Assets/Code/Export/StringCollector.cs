@@ -17,7 +17,7 @@ namespace msTech.Export
     {
         public StringCollector()
         {
-            _stringSet = new HashSet<string>(CAPACITY);
+            _stringSet = new HashSet<string>();
             _stringList = new List<string>(CAPACITY);
             _dictStrToId = new Dictionary<string, int>(CAPACITY);
         }

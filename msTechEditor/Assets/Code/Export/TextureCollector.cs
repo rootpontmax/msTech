@@ -18,7 +18,7 @@ namespace msTech.Export
         public TextureCollector(IStringCollector stringCollector)
         {
             _stringCollector = stringCollector;
-            _textureSet = new HashSet<Texture>(CAPACITY);
+            _textureSet = new HashSet<Texture>();
             _textureList = new List<Texture>(CAPACITY);
             _dictTextureToId = new Dictionary<Texture, int>(CAPACITY);
         }

@@ -25,7 +25,7 @@ namespace msTech.Export
 
         public static void CreateDirectoriesForPath(string folder, string path)
         {
-            string[] folders = path.Split("/");
+            string[] folders = path.Split('/');
             string parentFolder = folder;
             if ( null != folders )
                 for ( int i = 0; i < folders.Length; ++i )
