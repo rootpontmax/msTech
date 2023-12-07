@@ -49,6 +49,13 @@ namespace msTech.Editor
                 SceneView.beforeSceneGui += DrawGUI;
                 Repaint();
             }
+
+            if( GUILayout.Button("Export") )
+            {
+                string path = EditorUtility.SaveFilePanel("Choose folder to export project data", "", "", "svo");
+                if (null!= path)
+                    _generator.Export(path);
+            }
         }
 
         private void DrawGUI(SceneView sceneView)

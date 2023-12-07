@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using msTech.Math;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace msTech.Editor
 
         void Generate(int maxLevel);
         void Draw(int levelToShow);
+        void Export(string filename);
     }
 
     public class StaticVoxelGenerator : IStaticVoxelGenerator
@@ -71,6 +74,76 @@ namespace msTech.Editor
             */
         }
 
+        public void Export(string filename)
+        {
+            MemoryStream ms = new MemoryStream();
+            BinaryWriter bw = new BinaryWriter(ms);
+
+            // Save SVO header
+            bw.Write(_rootCenter.x);
+            bw.Write(_rootCenter.y);
+            bw.Write(_rootCenter.z);
+            bw.Write(_rootHalsSize);
+
+            // Save nodes            
+            Dictionary<SNode, long> poistionsOfNodes = new Dictionary<SNode, long>();
+            Dictionary<SNode, long> positionsOfPointers = new Dictionary<SNode, long>();
+            for (int i = 0; i < _nodes.Count; ++i)
+            {
+                SNode node = _nodes[i];
+
+                // Save position of current node
+                long currentNodePosition = ms.Position;
+                poistionsOfNodes.Add(node, currentNodePosition);
+
+                // Save node data
+                byte colR = 0xFF;
+                byte colG = 0x7F;
+                byte colB = 0xFF;
+                byte mask = CalcChildrenNodesMask(node);
+                bw.Write(colR);
+                bw.Write(colG);
+                bw.Write(colB);
+                bw.Write(mask);
+
+                // TODO: Replace padding with some additional info
+                // Padding another 4 bytes
+                UInt32 padding = 0xEFBEADDE;
+                bw.Write(padding);                
+
+                // Save mocks as a child pointer (actualy it is a position in memory stream)
+                for (int j = 0; j < 8; ++j)
+                    if (null != node.children[j])
+                    {
+                        long pointerMock = j;
+                        long currentPosition = ms.Position;
+                        bw.Write(pointerMock);
+                        positionsOfPointers.Add(node.children[j], currentPosition);
+                    }
+            }
+
+            // Restore the pointers (positions in memory stream) for pointers
+            foreach (var kvp in positionsOfPointers)
+            {
+                SNode node = kvp.Key;
+                long pointerPosition = kvp.Value;
+
+                if (poistionsOfNodes.TryGetValue(node, out long nodePosition))
+                {
+                    UInt64 pointerValue = (UInt64)nodePosition;
+                    ms.Position = pointerPosition;
+                    bw.Write(pointerValue);
+                }
+                else
+                {
+                    Debug.LogError("Can't find a real position in MemoryStream of SNode");
+                }
+            }
+
+            bw.Flush();
+            File.WriteAllBytes(filename, ms.ToArray());
+        }
+
         private void DefineBoundsAndCollectPolygons()
         {
             _polygons.Clear();
@@ -79,13 +152,13 @@ namespace msTech.Editor
             _globalMaxPos = -_globalMinPos;
 
             // Get all SkinnedMeshRenderes and define the bounds
-            SkinnedMeshRenderer[] allSkins = Object.FindObjectsOfType<SkinnedMeshRenderer>();
+            SkinnedMeshRenderer[] allSkins = UnityEngine.Object.FindObjectsOfType<SkinnedMeshRenderer>();
             for (int i = 0; i < allSkins.Length; ++i)
                 if (allSkins[i].gameObject.activeSelf && allSkins[i].gameObject.activeInHierarchy)
                     DefineMeshBoundsAndCollectPolygons(allSkins[i].gameObject.transform, allSkins[i].sharedMesh, allSkins[i].sharedMaterial);
 
             // Get all mesh filter and define the bounds
-            MeshFilter[] allMeshFilters = Object.FindObjectsOfType<MeshFilter>();
+            MeshFilter[] allMeshFilters = UnityEngine.Object.FindObjectsOfType<MeshFilter>();
             for (int i = 0; i < allMeshFilters.Length; ++i)
                 if (allMeshFilters[i].gameObject.activeSelf && allMeshFilters[i].gameObject.activeInHierarchy && null != allMeshFilters[i].mesh)
                 {
@@ -275,6 +348,21 @@ namespace msTech.Editor
 
             // Otherwise we have an intersection
             return true;
+        }
+
+        byte CalcChildrenNodesMask(SNode node)
+        {
+            byte retMask = 0x00;
+
+            if (null != node && null != node.children)
+                for (int i = 0; i < 8; ++i)
+                    if (null != node.children[i])
+                    {
+                        byte nodeMask = (byte)(1 << i);                    
+                        retMask |= nodeMask;
+                    }
+
+            return retMask;
         }
 
         struct SHierarchyLevelInfo
