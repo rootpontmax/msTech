@@ -461,6 +461,38 @@ namespace msTech.Editor
 
             Vector3 closestPoint = GetClosestPointToPolygon(poly, pos);
 
+            // Caclulate barycentric coordinates
+            Vector3 posA = poly.points[0];
+            Vector3 posB = poly.points[1];
+            Vector3 posC = poly.points[2];
+            float triangleAreaABC = CalcBarycentricTriangleArea(posA, posB, posC);
+            float triangleAreaABP = CalcBarycentricTriangleArea(posA, posB, closestPoint);
+            float triangleAreaBCP = CalcBarycentricTriangleArea(posB, posC, closestPoint);
+            float triangleAreaCAP = CalcBarycentricTriangleArea(posC, posA, closestPoint);
+
+            float u = triangleAreaCAP / triangleAreaABC;
+            float v = triangleAreaABP / triangleAreaABC;
+            float w = triangleAreaBCP / triangleAreaABC;
+            
+
+            // CRAP - let's check ourself and restore the position of point by coefficients
+            Vector3 restoredClosestPoint = posA * w + posB * u + posC * v;
+            Vector3 deltaRestoredPos = closestPoint - restoredClosestPoint;
+            if ( deltaRestoredPos.magnitude > 0.001f)
+            {
+                Vector3 checkClosestPoint = GetClosestPointToPolygon(poly, pos);
+                //Debug.LogError("The position was restored with error.");
+                int a = 0;
+                ++a;
+            }
+            // end
+
+            Vector2 uvA = poly.uv[0];
+            Vector2 uvB = poly.uv[1];
+            Vector2 uvC = poly.uv[2];
+            Vector3 uv = uvA * w + uvB * u + uvC * v;
+
+            /*
             Vector3 dirCA = poly.points[2] - poly.points[0];
             Vector3 dirBA = poly.points[1] - poly.points[0];
             Vector3 dirPA = closestPoint - poly.points[0];
@@ -473,10 +505,13 @@ namespace msTech.Editor
             float coefCA = lenProjCA / dirCA.magnitude;
             float coefBA = lenProjBA / dirBA.magnitude;
 
+            
+
             Vector2 uvCA = poly.uv[2] - poly.uv[0];
             Vector2 uvBA = poly.uv[1] - poly.uv[0];
 
             Vector2 uv = poly.uv[0] + uvCA * coefCA + uvBA * coefBA;
+            */
 
             Color col = texture.GetPixelBilinear(uv.x, uv.y);
 
@@ -484,6 +519,14 @@ namespace msTech.Editor
             retColor.sqrDist = (closestPoint - pos).sqrMagnitude;
 
             return retColor;
+        }
+
+        private float CalcBarycentricTriangleArea(Vector3 posA, Vector3 posB, Vector3 posC)
+        {
+            Vector3 vecCA = posC - posA;
+            Vector3 vecBA = posB - posA;
+            Vector3 cross = Vector3.Cross(vecCA, vecBA);
+            return cross.magnitude * 0.5f;
         }
 
         private bool IsPointInsidePolygon(SPolygon poly, Vector3 pos)
@@ -543,7 +586,7 @@ namespace msTech.Editor
             // Try projection on plane. We add it only if projection belongs to polygon.
             Vector3 deltaPos = poly.points[0] - pos;            
             float distance = Vector3.Dot(poly.normal, deltaPos);
-            Vector3 planeProjection = pos - poly.normal * distance;
+            Vector3 planeProjection = pos + poly.normal * distance;
             if (IsPointInsidePolygon(poly, planeProjection))
                 candidatePoints.Add(planeProjection);
 
