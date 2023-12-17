@@ -56,6 +56,13 @@ namespace msTech.Editor
                 if (null!= path)
                     _generator.Export(path);
             }
+
+            if( GUILayout.Button("Export ver.2.0") )
+            {
+                string path = EditorUtility.SaveFilePanel("Choose folder to export project data", "", "", "sot"); // SOT - Sparse Octo Tree
+                if (null!= path)
+                    _generator.Export2(path);
+            }
         }
 
         private void DrawGUI(SceneView sceneView)

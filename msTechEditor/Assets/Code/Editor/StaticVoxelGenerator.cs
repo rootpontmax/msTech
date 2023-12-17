@@ -15,6 +15,7 @@ namespace msTech.Editor
         void Generate(int maxLevel);
         void Draw(int levelToShow);
         void Export(string filename);
+        void Export2(string filename);
     }
 
     public class StaticVoxelGenerator : IStaticVoxelGenerator
@@ -143,6 +144,90 @@ namespace msTech.Editor
                 if (poistionsOfNodes.TryGetValue(node, out long nodePosition))
                 {
                     UInt64 pointerValue = (UInt64)nodePosition;
+                    ms.Position = pointerPosition;
+                    bw.Write(pointerValue);
+                }
+                else
+                {
+                    Debug.LogError("Can't find a real position in MemoryStream of SNode");
+                }
+            }
+
+            bw.Flush();
+            File.WriteAllBytes(filename, ms.ToArray());
+
+            Debug.LogError("Export done.");
+        }
+
+        public void Export2(string filename)
+        {
+            MemoryStream ms = new MemoryStream();
+            BinaryWriter bw = new BinaryWriter(ms);
+
+            UInt32 nodesCount = (UInt32)_nodes.Count;
+            UInt32 headerEndMark = 0xFEEDFEED;
+
+            // Save SVO header
+            bw.Write(nodesCount);
+            bw.Write(_maxLevel);
+            bw.Write(_rootCenter.x);
+            bw.Write(_rootCenter.y);
+            bw.Write(_rootCenter.z);
+            bw.Write(_rootHalsSize);
+            //bw.Write(headerEndMark);
+
+            UInt64 firstNodeOffset = (UInt64)ms.Position;
+
+            // Save nodes            
+            Dictionary<SNode, long> poistionsOfNodes = new Dictionary<SNode, long>();
+            Dictionary<SNode, long> positionsOfPointers = new Dictionary<SNode, long>();
+            for (int i = 0; i < _nodes.Count; ++i)
+            {
+                SNode node = _nodes[i];
+
+                // Save position of current node
+                long currentNodePosition = ms.Position;
+                poistionsOfNodes.Add(node, currentNodePosition);
+
+                // Save node data
+                byte padding0 = 0xAD;
+                byte padding1 = 0xDE;
+                byte level = (byte)node.level;
+                byte mask = CalcChildrenNodesMask(node);                
+                bw.Write(level);
+                bw.Write(padding1);
+                bw.Write(padding0);
+                bw.Write(node.colR);
+                bw.Write(node.colG);
+                bw.Write(node.colB);
+                bw.Write(node.colA);
+                bw.Write(mask);
+
+                // Save mocks as a child pointer (actualy it is a position in memory stream)
+                for (int j = 0; j < 8; ++j)
+                    if (null != node.children[j])
+                    {
+                        long pointerMock = j;
+                        long currentPosition = ms.Position;
+                        bw.Write(pointerMock);
+                        positionsOfPointers.Add(node.children[j], currentPosition);
+                    }
+            }
+
+            // Restore the pointers (positions in memory stream) for pointers
+            foreach (var kvp in positionsOfPointers)
+            {
+                SNode node = kvp.Key;
+                long pointerPosition = kvp.Value;
+
+                if (poistionsOfNodes.TryGetValue(node, out long nodePosition))
+                {
+                    UInt64 pointerValue = (UInt64)nodePosition;
+
+                    pointerValue -= firstNodeOffset;
+                    Debug.Assert(0 == pointerValue % 8, "Wrong pointer value");
+                    pointerValue /= 8; // Because we have uint16_t[] in binary file
+
                     ms.Position = pointerPosition;
                     bw.Write(pointerValue);
                 }
